@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" title="main" href="styles/main.css">
+	<link rel="alternate stylesheet" type="text/css" title="contrast" href="styles/contrast.css">
+	<link rel="alternate stylesheet" type="text/css" title="minimal" href="styles/main-minimal.css">
+	<title>JavaScript - Homework 00? - Array Methods</title>
+	<script type="text/javascript">
+	function togglediv(id) {
+    var div = document.getElementById(id);
+    div.style.display = div.style.display == "none" ? "block" : "none";
+	}
+	</script>
+</head>
+<body>
+<div class="wrapper">
+		<header>
+			<h1>Homework 00? - Array Methods</h1>
+		</header>
+		<div class="display-menu">
+			<form>
+				<input type="submit" onclick="switch_style('main');return false;" name="main" value="Main Theme" id="main">
+				<input type="submit" onclick="switch_style('minimal');return false;" name="minimal" value="Minimal" id="minimal">
+				<input type="submit" onclick="switch_style('contrast');return false;" name="contrast" value="Contrast" id="contrast">
+			</form>
+		</div>
+		<nav>
+			<span>Choose task: </span>
+			<ul>
+				<li><button onclick="togglediv('task1')">1</button></li>
+				<li><button onclick="togglediv('task2')">2</button></li>
+				<li><button onclick="togglediv('task3')">3</button></li>
+				<li><button onclick="togglediv('task4')">4</button></li>
+				<li><button onclick="togglediv('task5')">5</button></li>
+				<li><button onclick="togglediv('task6')">6</button></li>
+				<li><button onclick="togglediv('task7')">7</button></li>
+				<li><button onclick="togglediv('task8')">8</button></li>
+				<li><button onclick="togglediv('task9')">9</button></li>
+			</ul>
+		</nav>
+		<div class="legend">single click to expand/collapse each task - also JavaScripts can be tested via console</div>
+		<main class="content">
+		<div id="task1">
+			<h2>Problem 001 - Make person</h2>
+			<p class="description">Write a functio for creating persons.
+Each person must have firstname, lastname, age and gender (true is female, false is male)
+Generate an array with ten person with different names, ages and genders</p>
+			<article>
+<pre class="code-print">
+	var Person = function(fname, lname, age, gender) {
+		this.fname = fname;
+		this.lname = lname;
+		this.age = age;
+		this.gender = gender;
+	};
+	var fnames = ['Maria','Pesho','Gosho','Vania','Lili','Iveta','Stamat','Blagoi','Nikolai'];
+	var lnames = ['Ivanova','Ivanov','Petrov','Karadjova','Bue','Stamatova','Nikolaef','Blagoev','Iliev'];
+	var genders = [true,false,false,true,true,true,false,false,false];
+	var persons = [];
+	for (var i = fnames.length - 1; i >= 0; i--) {
+		persons[i] = new Person(fnames[i], lnames[i] , (20+i*2), genders[i]);
+	};
+	console.log(persons);
+</pre>
+				<aside>source file : javascript.js</aside>
+			</article>
+		</div>
+		<div id="task2">
+			<h2>Problem 002 - People of age</h2>
+			<p class="description">Write a function that checks if an array of person contains only people of age (with age 18 or greater)
+Use only array methods and no regular loops (for, while)</p>
+			<article>
+<pre class="code-print">
+	var checkArrByAge = function(personArr, ageToCheck) {
+		function bigEnough(person, index, arr){
+			return !!(person.age > 18);
+		}
+		var result = personArr.every(bigEnough);
+		return result;
+	};
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>
+		<div id="task3">
+			<h2>Problem 003 - Underage people</h2>
+			<p class="description">Write a function that prints all underaged persons of an array of person
+Use Array#filter and Array#forEach
+Use only array methods and no regular loops (for, while)</p>
+			<article>
+<pre class="code-print">
+	var underAge = function(personArr) {
+		function under18(person, index, arr) {
+			if (person.age < 18) {
+				return person;
+			}	
+		}
+		return personArr.map(under18);
+	};
+	var underAge2 = function(personArr) {
+		function allUnder(person, index, arr) {
+			if (person.age < 18) {
+				return person;
+			}
+		}
+		return personArr.filter(allUnder);
+	};
+	var underAge3 = function(personArr) {
+		function allUnder(person, index, arr) {
+			if (person.age < 18) {
+				console.log(person);
+			}
+		}
+		return personArr.forEach(allUnder);
+	};
+	console.log('All under 18 (using map): '); 
+	var allUnder = underAge(persons);
+	for (var i = allUnder.length - 1; i >= 0; i--) {
+		if (allUnder[i] !== undefined) {
+			console.log(allUnder[i]);
+		}
+	}
+	console.log('All under 18 (using filter): ');
+	console.log(underAge2(persons));
+	console.log('All under 18 (using foreach): ');
+	underAge3(persons);
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>
+		<div id="task4">
+			<h2>Problem 004 - Average age of females</h2>
+			<p class="description">Write a function that calculates the average age of all females, extracted from an array of persons
+Use Array#filter
+Use only array methods and no regular loops (for, while)</p>
+			<article>
+<pre class="code-print">
+	var averageAge = function(personArr) {
+		function allFemalesAges (person) {
+			if (person.gender) {
+				return person;
+			}
+		}
+		var females = personArr.filter(allFemalesAges); // filters all females
+		console.log(females);
+		function sumAges(females, person) {
+			return females + person.age;
+		}
+		var sum = females.reduce(sumAges, 0); // sum all ages in the array
+	    return (sum / females.length); // return average
+	};
+	console.log('Average age of all women: '+averageAge(persons));
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>
+		<div id="task5">
+			<h2>Problem 005 - Youngest person </h2>
+			<p class="description">Write a function that finds the youngest male person in a given array of people and prints his full name
+Use only array methods and no regular loops (for, while)
+Use Array#find</p>
+			<article>
+<pre class="code-print">
+	var findYongest = function(personArr) {
+		function sortByAge(fPerson, sPerson) {
+			return fPerson.age - sPerson.age;
+		}
+		personArr = personArr.sort(sortByAge); // SAME AS :  function (a, b) {return a.age - b.age;}
+		return personArr[0].fname + ' ' + personArr[0].lname;
+	};
+	console.log('The yongest is : ');
+	console.log(findYongest(persons));
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>	
+		<div id="task6">
+			<h2>Problem 006 - Group people</h2>
+			<p class="description">Write a function that groups an array of persons by first letter of first name and returns the groups as a JavaScript Object
+Use Array#reduce
+Use only array methods and no regular loops (for, while)</p>
+			<article>
+<pre class="code-print">
+	var groupPeople = function(personArr) {
+		personArr = personArr.sort(   //REMEMBER this! Sorting Upcase strings in object (the simple a.fname - b.fname wont work)
+			function(a, b) {
+				return a.fname.toLowerCase().localeCompare(b.fname.toLowerCase());
+			}
+		);
+		function groupedBy(group, person) {
+			var fnameLetter = person.fname[0].toLowerCase();
+			if (!group.hasOwnProperty(fnameLetter)) {
+				group[fnameLetter] = [];
+			}
+			group[fnameLetter].push(person);
+			return group;
+		}
+		function sortFname(fPerson, sPerson) {
+			return fPerson.fname[0] - sPerson.fname[0];
+		}
+		return personArr.reduce(groupedBy, {});
+	};
+	var result = groupPeople(persons);
+	console.log(result);
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>	
+		<div id="task7">
+			<h2>Problem 007 </h2>
+			<p class="description"></p>
+			<article>
+<pre class="code-print">
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>
+		<div id="task8">
+			<h2>Problem 008 </h2>
+			<p class="description"></p>
+			<article>
+<pre class="code-print">
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>
+		<div id="task9">
+			<h2>Problem 009 </h2>
+			<p class="description"></p>
+			<article>
+<pre class="code-print">
+</pre>
+				<aside>source file : javascript.js</aside>				
+			</article>
+		</div>	
+		</main>				
+</div>
+<script type="text/javascript" src="javascript.js"></script>
+<script type="text/javascript" src="func/css-switcher.js"></script>
+</body>
+</html>
